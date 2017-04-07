@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.Webpack;
@@ -9,13 +5,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using vega.Models;
-
+using vega.Persistence;
+using AutoMapper;
 
 namespace WebApplicationBasic
 {
 
-    
+
     public class Startup
     {
         public Startup(IHostingEnvironment env)
@@ -36,8 +32,10 @@ namespace WebApplicationBasic
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddDbContext<VegaDbContext>(Options => Options.UseSqlServer("ConnectionString"));
-            Configuration.GetConnectionString("Default");
+
+            services.AddAutoMapper();
+            services.AddDbContext<VegaDbContext>(Options => Options.UseSqlServer(Configuration.GetConnectionString("Default")));
+ //           Configuration.GetConnectionString("Default");
             services.AddMvc();
             
         }
